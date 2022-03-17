@@ -63,6 +63,15 @@ def sort_divide(coords, dim):
     return sort_divide(coords[0:half_index,:], dim_next), sort_divide(coords[half_index:N,:], dim_next)
 
 def flatten(data):
+    """
+    Flatten deeply nested tuples into a one-layer tuple of elements
+
+    params:
+        data: nested tuples
+
+    returns:
+        result: flattened tuple
+    """
     result = []
     for item in data:
         if isinstance(item, tuple):
