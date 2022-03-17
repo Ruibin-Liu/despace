@@ -4,6 +4,7 @@ This script is trying to sort 3D coordinates in a spatial decomposition way.
 
 import sys
 from itertools import chain
+from urllib.parse import _NetlocResultMixinStr
 import numpy as np
 from math import floor
 import matplotlib.pyplot as plt
@@ -33,6 +34,19 @@ Algorithm:
     5) repeat until all sorted.
 """
 
+def next_dim(current_dim, d):
+    """
+    Generate the next dimension from the current dimension and the number of dimensions
+
+    params:
+        current_dim: int, the current dimension in an array-like object
+        d: int, the number of dimensions
+
+    returns:
+        dim_next: int, the next dimension in a circular way
+    """
+    return current_dim + 1 if current_dim + 1 < d else 0
+
 def sort_divide(coords, dim):
     """
     Sort an array 'coords' by its dimension 'dim', and then divide it into two halves.
@@ -48,17 +62,7 @@ def sort_divide(coords, dim):
     N, d = np.shape(coords)
     if N == 1:
         return coords[0] 
-    if d == 2:
-        dim_next = 0 if dim == 1 else 1
-    elif d == 3:
-        if dim == 0:
-            dim_next = 1
-        elif dim == 1:
-            dim_next = 2
-        else:
-            dim_next = 0
-    else:
-        raise ValueError("Only 2D and 3D have been implemented.")
+    dim_next = next_dim(dim, d)
     coords = coords[coords[:, dim].argsort()]
     half_index = floor(N/2)
     return sort_divide(coords[0:half_index,:], dim_next), sort_divide(coords[half_index:N,:], dim_next)
