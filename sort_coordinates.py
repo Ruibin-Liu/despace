@@ -6,9 +6,9 @@ import numpy as np
 from math import floor
 import time
 import matplotlib.pyplot as plt
-np.random.seed(20220316)
+np.random.seed(314)
 
-N = 11138  # number of coordinates/particles
+N = 10000  # number of coordinates/particles
 
 # 1D
 """
@@ -63,5 +63,5 @@ a = np.random.rand(N, 2)
 a = sort_divide(a, 0)
 a = np.stack(flatten(a))
 plt.scatter(a[:, 0], a[:, 1], c=t, cmap='jet')
-plt.show()
+plt.savefig('2D.png')
 

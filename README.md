@@ -14,3 +14,4 @@ Constructing and traversing the `k-D` trees and `k`-dimensional space filling cu
 
 ## Current status
 2D case is primarily done. Below shows a plot of `N=10000` points in a square space. The data points are blue-->red colored according to their indices from 0 to 9999.
+![](image.png "2D case")
