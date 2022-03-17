@@ -10,7 +10,9 @@ import matplotlib.pyplot as plt
 np.random.seed(314)
 
 N = int(sys.argv[1])  # number of coordinates/particles
-
+d = 2
+if len(sys.argv) >= 3:
+    d = int(sys.argv[2])  # number of dimensions
 
 # 1D
 """
@@ -30,7 +32,6 @@ Algorithm:
     5) repeat until all sorted.
 """
 
-
 def sort_divide(coords, dim):
     """
     Sort an array 'coords' by its dimension 'dim', and then divide it into two halves.
@@ -46,10 +47,20 @@ def sort_divide(coords, dim):
     N, d = np.shape(coords)
     if N == 1:
         return coords[0] 
-    dim_other = 1 if dim == 0 else 0
+    if d == 2:
+        dim_next = 0 if dim == 1 else 1
+    elif d == 3:
+        if dim == 0:
+            dim_next = 1
+        elif dim == 1:
+            dim_next = 2
+        else:
+            dim_next = 0
+    else:
+        raise ValueError("Only 2D and 3D have been implemented.")
     coords = coords[coords[:, dim].argsort()]
     half_index = floor(N/2)
-    return sort_divide(coords[0:half_index,:], dim_other), sort_divide(coords[half_index:N,:], dim_other)
+    return sort_divide(coords[0:half_index,:], dim_next), sort_divide(coords[half_index:N,:], dim_next)
 
 def flatten(data):
     result = []
@@ -61,10 +72,20 @@ def flatten(data):
     return tuple(result)
 
 t = np.arange(N)
-a = np.random.rand(N, 2)
+a = np.random.rand(N, d)
 a = sort_divide(a, 0)
 a = np.stack(flatten(a))
-plt.scatter(a[:, 0], a[:, 1], c=t, cmap='jet')
-plt.tight_layout()
-plt.savefig(f'2D_{N}.png', dpi=300)
+fig = plt.figure(figsize=(3.5, 3.5))
+if d == 2:
+    ax = fig.add_subplot()
+    plt.scatter(a[:, 0], a[:, 1], c=t, cmap='jet')
+    ax.set_xlim([0.0, 1.0])
+    ax.axis('equal')
+    plt.tight_layout()
+elif d == 3:
+    ax = fig.add_subplot(projection='3d')
+    ax.scatter(a[:, 0], a[:, 1], a[:, 2], c=t, cmap='jet')
+else:
+    exit()
+plt.savefig(f'{d}D_{N}.png', dpi=300)
 
