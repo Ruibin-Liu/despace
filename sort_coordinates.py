@@ -7,12 +7,13 @@ from itertools import chain
 import numpy as np
 from math import floor
 import matplotlib.pyplot as plt
-np.random.seed(314)
 
 N = int(sys.argv[1])  # number of coordinates/particles
 d = 2
 if len(sys.argv) >= 3:
     d = int(sys.argv[2])  # number of dimensions
+show_arrow = True  # whether to show the arrows connecting two adjacent data points
+
 
 # 1D
 """
@@ -88,6 +89,11 @@ fig = plt.figure(figsize=(3.5, 3.5))
 if d == 2:
     ax = fig.add_subplot()
     plt.scatter(a[:, 0], a[:, 1], c=t, cmap='jet')
+    if show_arrow and N <= 50: 
+        for i in range(N-1):
+            dx = a[i+1, 0] - a[i, 0]
+            dy = a[i+1, 1] - a[i, 1]
+            plt.arrow(a[i, 0], a[i, 1], dx, dy, ls=':', fc='k', length_includes_head=True, shape='full', width=0.0002, head_width=0.02)
     ax.set_xlim([0.0, 1.0])
     ax.axis('equal')
     plt.tight_layout()
