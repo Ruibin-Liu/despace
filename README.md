@@ -16,7 +16,7 @@ Constructing and traversing the `k-D` trees and `k`-dimensional space filling cu
 
 ## Current status
 
-2D and 3D cases are primarily done. Below shows a plot of `N=10000` points in a 2D square space and 3D cube. The data points are blue-->red colored according to their indices from 0 to 9999.
+`k-D` cases are primarily done. Visualization for 2D and 3D cases is supported. Below shows a plot of `N=10000` points in a 2D square space and 3D cube. The data points are blue-->red colored according to their indices from 0 to 9999.
 ![](./examples/figures/2D_10000.png "2D case with 10000 data points")
 ![](./examples/figures/3D_10000.png "3D case with 10000 data points")
 
