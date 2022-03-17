@@ -1,14 +1,16 @@
 """
 This script is trying to sort 3D coordinates in a spatial decomposition way.
 """
+
+import sys
 from itertools import chain
 import numpy as np
 from math import floor
-import time
 import matplotlib.pyplot as plt
 np.random.seed(314)
 
-N = 10000  # number of coordinates/particles
+N = int(sys.argv[1])  # number of coordinates/particles
+
 
 # 1D
 """
@@ -64,5 +66,5 @@ a = sort_divide(a, 0)
 a = np.stack(flatten(a))
 plt.scatter(a[:, 0], a[:, 1], c=t, cmap='jet')
 plt.tight_layout()
-plt.savefig('2D.png', dpi=300)
+plt.savefig(f'2D_{N}.png', dpi=300)
 
