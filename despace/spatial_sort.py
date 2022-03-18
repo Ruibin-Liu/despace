@@ -125,6 +125,7 @@ class SortND:
         self.__dict__.update(kwargs)
         data = self.sorted_coords
         fig = plt.figure(figsize=self.fig_size, dpi=self.fig_dpi)
+
         if self.plot_arrow:
             line_style = kwargs.get('linestyle', '--')
             self.ls = kwargs.get('ls', line_style)
@@ -132,6 +133,7 @@ class SortND:
             self.fc = kwargs.get('fc', face_color)
             self.width = kwargs.get('width', 0.002)
             self.head_width = kwargs.get('head_width', 0.02)
+    
         if self.d in [1, 2]:
             ax = fig.add_subplot()
             ax.axis('equal')
@@ -140,6 +142,7 @@ class SortND:
         else:
             print("Cannot plot data when number of dimensions d > 3.")
             return False
+
         if self.d == 1:
             ax.scatter(data, data, s=self.scatter_size, c=np.arange(self.length), cmap=self.color_map)
             if self.plot_arrow:
@@ -165,11 +168,16 @@ class SortND:
         
         if self.d != 3:  # The z axis is often cutout in 3D projection plot
             plt.tight_layout()
+
         if self.save_plot:
             self.fig_format = kwargs.get('fig_format', 'png')
             self.transparent = kwargs.get('transparent', True)
             self.file_name = kwargs.get('file_name', f"{self.d}D_{self.length}.{self.fig_format}")
             plt.savefig(self.file_name, dpi=self.fig_dpi, transparent=self.transparent)
+    
+        if self.show_plot:
+            plt.show()
+
     def __call__(self, coords):
         """
         If called, return the sorted data.
