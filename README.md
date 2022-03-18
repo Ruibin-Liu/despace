@@ -1,5 +1,9 @@
 # Despace
 
+![Python](https://img.shields.io/badge/python-3.6-blue.svg)
+<a href="https://colab.research.google.com/github/Ruibin-Liu/despace/blob/main/examples/despace_examples.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+[![PyPI version](https://badge.fury.io/py/despace.svg)](https://badge.fury.io/py/despace)
+
 ## Introduction
 
 Hierarchical spatial decomposition has been shown to be super useful in many geometric problems like geological analysis and N-body simulations. The general goal is to index multi-dimensional data points while keeping spatially proximal points as close as possible. Traditionally, `k-D` trees and space filling curves (Hilbert/Peano and Morton curves) are constructed to divide the `k` dimensional space first. For `k-D` trees, every data point will be assigned to the tree leaves and leaves close to each other in the tree structure are also spatially close to each other. For space filling curves, each data point in the space is assigned to the nearest space filling curve vertex. The whole data set can therefore be sorted along the space filling curve direction.
