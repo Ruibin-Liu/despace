@@ -59,3 +59,7 @@ s.plot(show_plot=False)  # Set show_plot=True in jupyter-notebook
 ```
 
 We shall get a similar figure as the above example.
+
+3. Try in Google Colab
+
+Click the button <a href="https://colab.research.google.com/github/Ruibin-Liu/despace/blob/main/examples/despace_examples.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Google Colab"/></a> and follow the examples in the Google Colab file.
