@@ -3,6 +3,8 @@
 ![Python](https://img.shields.io/badge/python-3.6-blue.svg)
 <a href="https://colab.research.google.com/github/Ruibin-Liu/despace/blob/main/examples/despace_examples.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 [![PyPI version](https://badge.fury.io/py/despace.svg)](https://badge.fury.io/py/despace)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6369236.svg)](https://doi.org/10.5281/zenodo.6369236)
+
 
 ## Introduction
 
