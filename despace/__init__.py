@@ -4,6 +4,6 @@
 #
 # ----------------------------
 
-from despace.spatial_sort import SortND
+from despace.spatial_sort import SortND, __version__
 
-__all__ = ['SortND']
+__all__ = ['SortND', __version__]

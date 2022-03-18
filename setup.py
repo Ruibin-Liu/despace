@@ -18,7 +18,7 @@ except ImportError:
 if os.path.exists('README.md'):
     long_description = open('README.md').read()
 else:
-    long_description = 'Despace - A spatial awareness'
+    long_description = 'Despace - A python package to sort or index N-dimensional data without using space filling curves.'
 
 # requirements
 # ------------
