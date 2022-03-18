@@ -2,22 +2,29 @@ __package_name__ = "despace"
 __version__ = "0.1.0"
 __author__ = "Ruibin Liu"
 
-import setuptools
+# imports
+# -------
 
+import os
 
-def get_long_description() -> str:
-    """
-    Get the long description as written in the project README.md file.
-    """
-    with open("README.md", "r", encoding="utf-8") as rf:
-        return rf.read()
+# config
+# ------
 
+try:
+    from setuptools import setup, find_packages
+except ImportError:
+    from distutils.core import setup, find_packages
 
-requires = [
-    'numpy',
-    'matplotlib',
-]
+if os.path.exists('README.md'):
+    long_description = open('README.md').read()
+else:
+    long_description = 'Despace - A spatial awareness'
 
+# requirements
+# ------------
+
+with open('requirements.txt') as f:
+    REQUIREMENTS = f.read().strip().split('\n')
 
 setuptools.setup(
     name=__package_name__,
@@ -25,7 +32,7 @@ setuptools.setup(
     author=__author__,
     author_email="ruibinliuphd@gmail.com",
     description="A spatial decomposition tool for sorting or indexing N-D data.",
-    long_description=get_long_description(),
+    long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/Ruibin-Liu/despace",
     project_urls={
@@ -36,8 +43,7 @@ setuptools.setup(
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
     ],
-    package_dir={"": "despace"},
-    packages=setuptools.find_packages(where="despace"),
-    install_requires=requires,
+    packages=find_packages(),
+    install_requires=REQUIREMENTS,
     python_requires=">=3.6",
 )
