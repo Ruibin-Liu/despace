@@ -1,4 +1,3 @@
-from itertools import chain
 import numpy as np
 from math import floor
 import matplotlib.pyplot as plt
@@ -30,8 +29,9 @@ class SortND:
         returns:
             a SortND instance
         """
-        self.orig_coords = np.array(coords)
-        self.length, self.d = np.shape(self.orig_coords)
+        if coords is not None:
+            self.orig_coords = np.array(coords)
+            self.length, self.d = np.shape(self.orig_coords)
         self.start_dim = start_dim
         self.plot_data = plot_data
         self.__dict__.update(kwargs)
@@ -65,7 +65,7 @@ class SortND:
             return coords[0]
         if self.d == 1:
             return np.sort(coords)
-        dim_next = self._next_dim(dim, self.d)
+        dim_next = self._next_dim(dim)
         coords = coords[coords[:, dim].argsort()]
         half_index = floor(N/2)
         return self._sort_divide(coords[0:half_index,:], dim_next), self._sort_divide(coords[half_index:N,:], dim_next) 
@@ -98,8 +98,8 @@ class SortND:
         returns:
             sorted_coords: sorted coords as a numpy.array.
         """
-        if new_data is not None:
-            self.orig_coords = np.array(new_data)
+        if new_coords is not None:
+            self.orig_coords = np.array(new_coords)
             self.length, self.d = np.shape(self.orig_coords)
         coords = self._sort_divide(self.orig_coords, self.start_dim)
         self.sorted_coords = np.stack(self._flatten(coords))
@@ -123,45 +123,45 @@ class SortND:
         self.save_plot = save_plot
         self.plot_arrow = plot_arrow
         self.__dict__.update(kwargs)
-
         data = self.sorted_coords
         fig = plt.figure(figsize=self.fig_size, dpi=self.fig_dpi)
         if self.plot_arrow:
-            line_style = kwargs.get('linestyle', ':')
+            line_style = kwargs.get('linestyle', '--')
             self.ls = kwargs.get('ls', line_style)
             face_color = kwargs.get('facecolor', 'k')
             self.fc = kwargs.get('fc', face_color)
-            self.width = kwargs.get('width', 0.0002)
-            self.head_width = kwargs.get('head_width', 0.002)
+            self.width = kwargs.get('width', 0.002)
+            self.head_width = kwargs.get('head_width', 0.02)
         if self.d in [1, 2]:
             ax = fig.add_subplot()
+            ax.axis('equal')
         elif self.d == 3:
             ax = fig.add_subplot(projection='3d')
         else:
             print("Cannot plot data when number of dimensions d > 3.")
             return False
         if self.d == 1:
-            plt.scatter(data, data, s=self.scatter_size, c=self.length, cmap=self.color_map)
+            ax.scatter(data, data, s=self.scatter_size, c=np.arange(self.length), cmap=self.color_map)
             if self.plot_arrow:
                 for i in range(self.length-1):
                     dx = data[i+1] - data[i]
                     dy = dx
-                    plt.arrow(data, data, dx, dy, ls=self.ls, fc=self.fc, length_includes_head=True, shape='full', width=self.width, head_width=self.head_width)
+                    ax.arrow(data, data, dx, dy, ls=self.ls, fc=self.fc, length_includes_head=True, shape='full', width=self.width, head_width=self.head_width)
         elif self.d == 2:
-            plt.scatter(data[:, 0], data[:, 1], s=self.scatter_size, c=self.length, cmap=self.color_map)
+            ax.scatter(data[:, 0], data[:, 1], s=self.scatter_size, c=np.arange(self.length), cmap=self.color_map)
             if self.plot_arrow:
                 for i in range(self.length-1):
                     dx = data[i+1, 0] - data[i, 0]
                     dy = data[i+1, 1] - data[i, 1]
-                    plt.arrow(data[i, 0], data[i, 1], dx, dy, ls=self.ls, fc=self.fc, length_includes_head=True, shape='full', width=self.width, head_width=self.head_width)
+                    ax.arrow(data[i, 0], data[i, 1], dx, dy, ls=self.ls, fc=self.fc, length_includes_head=True, shape='full', width=self.width, head_width=self.head_width)
         elif self.d == 3:
-            plt.scatter(data[:, 0], data[:, 1], data[:, 2] s=self.scatter_size, c=self.length, cmap=self.color_map)
+            ax.scatter(data[:, 0], data[:, 1], data[:, 2], c=np.arange(self.length), cmap=self.color_map)
             if self.plot_arrow:
                 for i in range(self.length-1):
                     dx = data[i+1, 0] - data[i, 0]
                     dy = data[i+1, 1] - data[i, 1]
                     dz = data[i+1, 2] - data[i, 2]
-                    ax.quiver(data[i, 0], data[i, 1], data[i, 2], dx, dy, dz, ls=self.ls, fc=self.fc, shape='full', width=self.width, head_width=self.head_width)
+                    ax.quiver(data[i, 0], data[i, 1], data[i, 2], dx, dy, dz, ls=self.ls, fc=self.fc)
         
         if self.d != 3:  # The z axis is often cutout in 3D projection plot
             plt.tight_layout()
