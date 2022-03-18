@@ -22,7 +22,12 @@ pip install despace
 
 ## Current status
 
+For a 8X8 grid, we get a Morton curve:
+
+![](./examples/figures/Morton.png "8x8 Morton curve")
+
 `k-D` cases are primarily done. Visualization for 2D and 3D cases is supported. Below shows plots of `N=10000` random points in a 2D square space and a 3D cube. The data points are blue-->red colored according to their indices from 0 to 9999.
+
 ![](./examples/figures/2D_10000.png "2D case with 10000 data points")
 ![](./examples/figures/3D_10000.png "3D case with 10000 data points")
 
@@ -35,6 +40,7 @@ python generate_random.py 50 2 # use 50 data points for 2D.
 ```
 
 And we get a figure like below:
+
 ![](./examples/figures/2D_50.png "2D case with 50 data points")
 
 2. Use in your code
