@@ -1,7 +1,14 @@
+#!/usr/bin/env python3
+
 from spatial_sort import SortND
 import numpy as np
-s = SortND(np.random.rand(40, 3))
+
+# init and sort
+s = SortND(np.random.rand(50, 2))
 s.sort()
 s.plot(plot_arrow=True)
-s(np.random.rand(50, 2))
-s.plot(show_plot=True)
+
+# directly call
+t = SortND()
+t(np.random.rand(50, 3))
+t.plot(show_plot=True)

@@ -177,6 +177,7 @@ class SortND:
     
         if self.show_plot:
             plt.show()
+        plt.close()
 
     def __call__(self, coords):
         """
@@ -189,5 +190,3 @@ class SortND:
             sorted_coords: sorted coords as a numpy.array.
         """
         return self.sort(new_coords=coords)
-
-
