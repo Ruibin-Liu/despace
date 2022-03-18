@@ -7,4 +7,3 @@
 from despace.spatial_sort import SortND
 
 __all__ = ['SortND']
-__name__ = 'despace'
