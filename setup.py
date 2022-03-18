@@ -13,6 +13,12 @@ def get_long_description() -> str:
         return rf.read()
 
 
+requires = [
+    'numpy',
+    'matplotlib',
+]
+
+
 setuptools.setup(
     name=__package_name__,
     version=__version__,
@@ -32,5 +38,6 @@ setuptools.setup(
     ],
     package_dir={"": "despace"},
     packages=setuptools.find_packages(where="despace"),
+    install_requires=requires,
     python_requires=">=3.6",
 )

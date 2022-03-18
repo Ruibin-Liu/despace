@@ -13,11 +13,13 @@
 
     The sorted (re-indexed) N-D array can be useful in geological and N-body simulations like in molecular dynamics and astronomical physics.
 """
-__version__ = "0.1.0"
 
 import numpy as np
 from math import floor
 import matplotlib.pyplot as plt
+from pkg_resources import get_distribution
+
+__version__ = get_distribution('despace').version
 
 
 class SortND:
