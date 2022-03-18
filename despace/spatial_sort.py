@@ -1,26 +1,26 @@
+"""
+    `despace` is a tool to sort n dimensional data in a spatial decomposition way. Instead of using space filling curves, we use a simple sorting scheme.
+
+    For the n=1 case, it's just a single sort.
+    For the n>=2 dimensional cases, it's possible to index 'coordinates' so that proximal points are stored closely. 
+
+    We do it in the following way:
+        1) Sort the the n-D coordinates by the first dimension;
+        2) Divide the coordinates into two;
+        3) For each half, sort the coordinates by the second dimension;
+        4) For each sorted half, divide the coordinates into two, and for each half in halves, sort by the next dimension, and so on;
+        5) Repeat by circularly rotating the dimension indices until divided to individual elements.
+
+    The sorted (re-indexed) N-D array can be useful in geological and N-body simulations like in molecular dynamics and astronomical physics.
+"""
+__version__ = "0.1.0"
+
 import numpy as np
 from math import floor
 import matplotlib.pyplot as plt
-from prompt_toolkit import VERSION
-
-VERSION = '0.1.0'
 
 
 class SortND:
-    """
-        Sort n dimensional data in a spatial decomposition way.
-
-        For the n=1 case, it's just a single sort.
-        For the n>=2 dimensional cases, it's possible to index 'coordinates' so that proximal points are stored closely. 
-
-        We do it in the following way:
-            1) Sort the the n-D coordinates by the first dimension;
-            2) Divide the coordinates into two;
-            3) For each half, sort the coordinates by the second dimension;
-            4) For each sorted half, divide the coordinates into two, and for each half in halves, sort by the next dimension, and so on;
-            5) Repeat by circularly rotating the dimension indices until divided to individual elements.
-    """
-
     def __init__(self, coords=None, start_dim=0, plot_data=False, **kwargs):
         """
         Init an SortND instance.
@@ -72,7 +72,7 @@ class SortND:
             return np.sort(coords)
         dim_next = self._next_dim(dim)
         coords = coords[coords[:, dim].argsort()]
-        half_index = floor(N/2)
+        half_index = floor(N / 2)
         return self._sort_divide(coords[0:half_index, :], dim_next), self._sort_divide(coords[half_index:N, :], dim_next)
 
     def _flatten(self, data):
@@ -203,3 +203,9 @@ class SortND:
             sorted_coords: sorted coords as a numpy.array.
         """
         return self.sort(new_coords=coords)
+
+    def __str__(self) -> str:
+        return f"{SortND(N=self.length, d=self.d, start_dim=self.start_dim)}"
+
+    def __repr__(self) -> str:
+        return self.__str__()
