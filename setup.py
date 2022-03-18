@@ -26,7 +26,7 @@ else:
 with open('requirements.txt') as f:
     REQUIREMENTS = f.read().strip().split('\n')
 
-setuptools.setup(
+setup(
     name=__package_name__,
     version=__version__,
     author=__author__,
