@@ -1,5 +1,8 @@
+from despace.spatial_sort import SortND
 import pytest
 import sys
+import numpy as np
+sys.path.append("..")
 
 
 @pytest.fixture
@@ -12,8 +15,3 @@ def capture_stdout(monkeypatch):
 
     monkeypatch.setattr(sys.stdout, 'write', fake_write)
     return
-
-
-@pytest.fixture(scope="class")
-def init_sortnd():
-    pass
