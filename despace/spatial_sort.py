@@ -14,10 +14,10 @@
     The sorted (re-indexed) N-D array can be useful in geological and N-body simulations like in molecular dynamics and astronomical physics.
 """
 
-from typing import Tuple
+from typing import List
 import numpy as np
 from math import floor
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt  # type: ignore
 
 
 class SortND:
@@ -60,7 +60,7 @@ class SortND:
         """
         return current_dim + 1 if current_dim + 1 < self.d else 0
 
-    def _sort_divide(self, coords: np.ndarray, dim: int) -> Tuple[np.ndarray, np.ndarray]:
+    def _sort_divide(self, coords: np.ndarray, dim: int) -> np.ndarray:
         """
         Sort an array 'coords' by its dimension 'dim', and then divide it into two halves.
 
@@ -81,25 +81,25 @@ class SortND:
         dim_next = self._next_dim(dim)
         coords = coords[coords[:, dim].argsort()]
         half_index = floor(N / 2)
-        return self._sort_divide(coords[0:half_index, :], dim_next), self._sort_divide(coords[half_index:N, :], dim_next)
+        return np.vstack((self._sort_divide(coords[0:half_index, :], dim_next), self._sort_divide(coords[half_index:N, :], dim_next)))
 
-    def _flatten(self, data: Tuple) -> Tuple:
+    def _flatten(self, data: np.ndarray) -> np.ndarray:
         """
-        Flatten deeply nested tuples into a one-layer tuple of elements.
+        Flatten deeply nested numpy.ndarray into a one-layer array of elements.
 
         params:
-            data: nested tuples.
+            data: nested numpy.ndarray.
 
         returns:
             result: flattened tuple.
         """
-        result = []
+        result: List[np.ndarray] = []
         for item in data:
-            if isinstance(item, tuple):
+            if isinstance(item, np.ndarray):
                 result.extend(self._flatten(item))
             else:
                 result.append(item)
-        return tuple(result)
+        return np.array(result)
 
     def sort(self, coords: np.ndarray = None) -> np.ndarray:
         """
@@ -121,8 +121,9 @@ class SortND:
                 self.length, self.d = shape[0], shape[1]
             else:
                 raise ValueError(f'np.ndarray shape {shape} is not supported yet.')
-        coords = self._sort_divide(self.coords, self.start_dim)
-        self.sorted_coords = np.stack(self._flatten(coords))
+        tmp_coords = self._sort_divide(self.coords, self.start_dim)
+        # self.sorted_coords = self._flatten(tmp_coords)
+        self.sorted_coords = tmp_coords
         return self.sorted_coords
 
     def plot(self, show_plot: bool = False, save_plot: bool = True, plot_arrow: bool = False, **kwargs) -> bool:
@@ -166,7 +167,6 @@ class SortND:
             raise ValueError(f"Cannot plot {self.d} dimensional data.")
 
         if self.d == 1:
-            print(self.length)
             ax.scatter(data, data, s=self.scatter_size,
                        c=np.arange(self.length), cmap=self.color_map)
             if self.plot_arrow:
@@ -221,10 +221,10 @@ class SortND:
         returns:
             sorted_coords: sorted coords as a numpy.array.
         """
-        return self.sort(coords=coords)
+        return self.sort(coords=np.array(coords))
 
     def __str__(self) -> str:
-        return f"{SortND(N=self.length, d=self.d, start_dim=self.start_dim)}"
+        return f"SortND(N={self.length}, d={self.d}, start_dim={self.start_dim})"
 
     def __repr__(self) -> str:
         return self.__str__()

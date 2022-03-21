@@ -1,30 +1,21 @@
-__package_name__ = "despace"
-__version__ = "0.1.2"
-__author__ = "Ruibin Liu"
-
-# imports
-# -------
-
 import os
 
-# config
-# ------
+__package_name__ = "despace"
+__author__ = "Ruibin Liu"
 
-try:
-    from setuptools import setup, find_packages
-except ImportError:
-    from distutils.core import setup, find_packages
+from setuptools import setup, find_packages
 
 if os.path.exists('README.md'):
     long_description = open('README.md').read()
 else:
     long_description = 'Despace - A python package to sort or index N-dimensional data without using space filling curves.'
 
-# requirements
-# ------------
-
 with open('requirements.txt') as f:
     REQUIREMENTS = f.read().strip().split('\n')
+
+with open('despace/version.py', 'r') as vf:
+    __version__ = vf.readline().split()[-1].strip().replace("'", '')
+
 
 setup(
     name=__package_name__,
