@@ -18,9 +18,6 @@ from typing import Tuple
 import numpy as np
 from math import floor
 import matplotlib.pyplot as plt
-from pkg_resources import get_distribution
-
-__version__ = get_distribution('despace').version
 
 
 class SortND:
