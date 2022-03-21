@@ -41,7 +41,7 @@ class SortND:
             self.coords = np.array(coords)
             shape = self.coords.shape
             if len(shape) == 1:
-                self.length = shape
+                self.length = shape[0]
                 self.d = 1
             elif len(shape) == 2:
                 self.length, self.d = shape[0], shape[1]
@@ -116,7 +116,14 @@ class SortND:
         """
         if coords is not None:
             self.coords = np.array(coords)
-            self.length, self.d = np.shape(self.coords)
+            shape = self.coords.shape
+            if len(shape) == 1:
+                self.length = shape[0]
+                self.d = 1
+            elif len(shape) == 2:
+                self.length, self.d = shape[0], shape[1]
+            else:
+                raise ValueError(f'np.ndarray shape {shape} is not supported yet.')
         coords = self._sort_divide(self.coords, self.start_dim)
         self.sorted_coords = np.stack(self._flatten(coords))
         return self.sorted_coords
@@ -159,10 +166,10 @@ class SortND:
         elif self.d == 3:
             ax = fig.add_subplot(projection='3d')
         else:
-            print("Cannot plot data when number of dimensions d > 3.")
-            return False
+            raise ValueError(f"Cannot plot {self.d} dimensional data.")
 
         if self.d == 1:
+            print(self.length)
             ax.scatter(data, data, s=self.scatter_size,
                        c=np.arange(self.length), cmap=self.color_map)
             if self.plot_arrow:
