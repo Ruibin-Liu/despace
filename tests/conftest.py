@@ -1,7 +1,5 @@
-from despace.spatial_sort import SortND
 import pytest
 import sys
-import numpy as np
 sys.path.append("..")
 
 
