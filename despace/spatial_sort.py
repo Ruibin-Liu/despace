@@ -38,8 +38,8 @@ class SortND:
             a SortND instance
         """
         if coords is not None:
-            self.orig_coords = np.array(coords)
-            self.length, self.d = np.shape(self.orig_coords)
+            self.coords = np.array(coords)
+            self.length, self.d = np.shape(self.coords)
         self.start_dim = start_dim
         self.plot_data = plot_data
         self.__dict__.update(kwargs)
@@ -96,20 +96,20 @@ class SortND:
                 result.append(item)
         return tuple(result)
 
-    def sort(self, new_coords: np.ndarray = None) -> np.ndarray:
+    def sort(self, coords: np.ndarray = None) -> np.ndarray:
         """
         Sort the n dimensional data.
 
         params:
-            new_coords: new numpy.ndarray-like data to sort.
+            coords: numpy.ndarray-like data to sort.
 
         returns:
             sorted_coords: sorted coords as a numpy.array.
         """
-        if new_coords is not None:
-            self.orig_coords = np.array(new_coords)
-            self.length, self.d = np.shape(self.orig_coords)
-        coords = self._sort_divide(self.orig_coords, self.start_dim)
+        if coords is not None:
+            self.coords = np.array(coords)
+            self.length, self.d = np.shape(self.coords)
+        coords = self._sort_divide(self.coords, self.start_dim)
         self.sorted_coords = np.stack(self._flatten(coords))
         return self.sorted_coords
 
@@ -209,7 +209,7 @@ class SortND:
         returns:
             sorted_coords: sorted coords as a numpy.array.
         """
-        return self.sort(new_coords=coords)
+        return self.sort(coords=coords)
 
     def __str__(self) -> str:
         return f"{SortND(N=self.length, d=self.d, start_dim=self.start_dim)}"
