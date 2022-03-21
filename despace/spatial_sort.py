@@ -39,7 +39,14 @@ class SortND:
         """
         if coords is not None:
             self.coords = np.array(coords)
-            self.length, self.d = np.shape(self.coords)
+            shape = self.coords.shape
+            if len(shape) == 1:
+                self.length = shape
+                self.d = 1
+            elif len(shape) == 2:
+                self.length, self.d = shape[0], shape[1]
+            else:
+                raise ValueError(f'np.ndarray shape {shape} is not supported yet.')
         self.start_dim = start_dim
         self.plot_data = plot_data
         self.__dict__.update(kwargs)
@@ -68,11 +75,12 @@ class SortND:
             coords_1: first half of the sorted coords.
             coords_2: second half of the sorted coords.
         """
-        N, _ = np.shape(coords)
-        if N == 1:
-            return coords[0]
         if self.d == 1:
             return np.sort(coords)
+        shape = coords.shape
+        N = shape[0]
+        if N == 1:
+            return coords[0]
         dim_next = self._next_dim(dim)
         coords = coords[coords[:, dim].argsort()]
         half_index = floor(N / 2)
