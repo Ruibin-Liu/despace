@@ -14,6 +14,7 @@
     The sorted (re-indexed) N-D array can be useful in geological and N-body simulations like in molecular dynamics and astronomical physics.
 """
 
+from typing import Tuple
 import numpy as np
 from math import floor
 import matplotlib.pyplot as plt
@@ -23,7 +24,7 @@ __version__ = get_distribution('despace').version
 
 
 class SortND:
-    def __init__(self, coords=None, start_dim=0, plot_data=False, **kwargs):
+    def __init__(self, coords: np.ndarray = None, start_dim: int = 0, plot_data: bool = False, **kwargs) -> None:
         """
         Init an SortND instance.
 
@@ -43,7 +44,7 @@ class SortND:
         self.plot_data = plot_data
         self.__dict__.update(kwargs)
 
-    def _next_dim(self, current_dim):
+    def _next_dim(self, current_dim: int) -> int:
         """
         Generate the next dimension from the current dimension and the number of dimensions.
 
@@ -55,7 +56,7 @@ class SortND:
         """
         return current_dim + 1 if current_dim + 1 < self.d else 0
 
-    def _sort_divide(self, coords, dim):
+    def _sort_divide(self, coords: np.ndarray, dim: int) -> Tuple[np.ndarray, np.ndarray]:
         """
         Sort an array 'coords' by its dimension 'dim', and then divide it into two halves.
 
@@ -77,7 +78,7 @@ class SortND:
         half_index = floor(N / 2)
         return self._sort_divide(coords[0:half_index, :], dim_next), self._sort_divide(coords[half_index:N, :], dim_next)
 
-    def _flatten(self, data):
+    def _flatten(self, data: Tuple) -> Tuple:
         """
         Flatten deeply nested tuples into a one-layer tuple of elements.
 
@@ -95,7 +96,7 @@ class SortND:
                 result.append(item)
         return tuple(result)
 
-    def sort(self, new_coords=None):
+    def sort(self, new_coords: np.ndarray = None) -> np.ndarray:
         """
         Sort the n dimensional data.
 
@@ -112,7 +113,7 @@ class SortND:
         self.sorted_coords = np.stack(self._flatten(coords))
         return self.sorted_coords
 
-    def plot(self, show_plot=False, save_plot=True, plot_arrow=False, **kwargs):
+    def plot(self, show_plot: bool = False, save_plot: bool = True, plot_arrow: bool = False, **kwargs) -> bool:
         """
         Plot the sorted data by using gradient color corresponding to the data index change.
 
@@ -121,6 +122,9 @@ class SortND:
             show_plot: bool, whether to show the plot; default is False.
             save_plot: bool, whether to save the plot; default is True.
             Other matplotlib key words to control plot parameters.
+
+        returns:
+            True/False if the data is plotted or not.
         """
         self.fig_size = kwargs.get('figsize', (3.5, 3.5))
         self.color_map = kwargs.get('cmap', 'jet')
@@ -193,8 +197,9 @@ class SortND:
         if self.show_plot:
             plt.show()
         plt.close()
+        return True
 
-    def __call__(self, coords):
+    def __call__(self, coords: np.ndarray) -> np.ndarray:
         """
         If called, return the sorted data.
 
