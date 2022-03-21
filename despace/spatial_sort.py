@@ -28,8 +28,8 @@ class SortND:
         Init an SortND instance.
 
         params:
-            coords: numpy.ndarray like data; default is None.
-            start_dim: int, sort the n-D array starting from the `start_dim` dimension; default is 0, the 0th dimension.
+            coords: numpy.ndarray (2D) or matrix like data; default is None.
+            start_dim: int, sort the matrix starting from the `start_dim` dimension; default is 0, the 0th dimension.
             plot_data: bool, whether to plot the data; it's automatically set to False if number of dimensions is > 3.
             Other defined variables.
 
