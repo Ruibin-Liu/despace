@@ -2,7 +2,7 @@
     `despace` is a tool to sort n dimensional data in a spatial decomposition way. Instead of using space filling curves, we use a simple sorting scheme.
 
     For the n=1 case, it's just a single sort.
-    For the n>=2 dimensional cases, it's possible to index 'coordinates' so that proximal points are stored closely. 
+    For the n>=2 dimensional cases, it's possible to index 'coordinates' so that proximal points are stored closely.
 
     We do it in the following way:
         1) Sort the the n-D coordinates by the first dimension;
@@ -14,7 +14,6 @@
     The sorted (re-indexed) N-D array can be useful in geological and N-body simulations like in molecular dynamics and astronomical physics.
 """
 
-from typing import List
 import numpy as np
 from math import floor
 import matplotlib.pyplot as plt  # type: ignore
@@ -83,24 +82,6 @@ class SortND:
         half_index = floor(N / 2)
         return np.vstack((self._sort_divide(coords[0:half_index, :], dim_next), self._sort_divide(coords[half_index:N, :], dim_next)))
 
-    def _flatten(self, data: np.ndarray) -> np.ndarray:
-        """
-        Flatten deeply nested numpy.ndarray into a one-layer array of elements.
-
-        params:
-            data: nested numpy.ndarray.
-
-        returns:
-            result: flattened tuple.
-        """
-        result: List[np.ndarray] = []
-        for item in data:
-            if isinstance(item, np.ndarray):
-                result.extend(self._flatten(item))
-            else:
-                result.append(item)
-        return np.array(result)
-
     def sort(self, coords: np.ndarray = None) -> np.ndarray:
         """
         Sort the n dimensional data.
@@ -121,9 +102,7 @@ class SortND:
                 self.length, self.d = shape[0], shape[1]
             else:
                 raise ValueError(f'np.ndarray shape {shape} is not supported yet.')
-        tmp_coords = self._sort_divide(self.coords, self.start_dim)
-        # self.sorted_coords = self._flatten(tmp_coords)
-        self.sorted_coords = tmp_coords
+        self.sorted_coords = self._sort_divide(self.coords, self.start_dim)
         return self.sorted_coords
 
     def plot(self, show_plot: bool = False, save_plot: bool = True, plot_arrow: bool = False, **kwargs) -> bool:
@@ -131,7 +110,7 @@ class SortND:
         Plot the sorted data by using gradient color corresponding to the data index change.
 
         params:
-            plot_arrow: bool, whether to plot arrows that show indexing direction between two data points; default is False. 
+            plot_arrow: bool, whether to plot arrows that show indexing direction between two data points; default is False.
             show_plot: bool, whether to show the plot; default is False.
             save_plot: bool, whether to save the plot; default is True.
             Other matplotlib key words to control plot parameters.
