@@ -130,4 +130,5 @@ dmypy.json
 
 # custom
 despace/*png
+despace/test.py
 tests/*png
