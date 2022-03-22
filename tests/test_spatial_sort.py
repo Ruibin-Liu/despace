@@ -15,6 +15,12 @@ sorted_coords_2d = np.array([[-0.3, -0.1], [0., 0.7], [0.1, 0.2], [1., 1.5], [1.
 coords_3d = np.array([[1.2, 0.0, 1.7, -0.4, 0.1], [1.4, 0.9, 1.0, -0.6, 0.3], [2.0, 0.0, 1.4, -0.2, 0.2]]).transpose()
 sorted_coords_3d = np.array([[-0.4, -0.6, -0.2], [0., 0.9, 0.], [0.1, 0.3, 0.2], [1.7, 1., 1.4], [1.2, 1.4, 2.]])
 
+grid_16 = np.array([[i, j] for i in range(4) for j in range(4)])
+morton_grid_16 = np.array([[0, 0], [0, 1], [1, 0], [1, 1], [0, 2], [0, 3], [1, 2], [1, 3],
+                          [2, 0], [2, 1], [3, 0], [3, 1], [2, 2], [2, 3], [3, 2], [3, 3]])
+hilbert_grid_16 = np.array([[0, 0], [1, 0], [1, 1], [0, 1], [0, 2], [0, 3], [1, 3], [1, 2],
+                           [2, 2], [2, 3], [3, 3], [3, 2], [3, 1], [2, 1], [2, 0], [3, 0]])
+
 
 def test_sort():
     # Init and call the sort method
@@ -35,8 +41,18 @@ def test_sort():
     with pytest.raises(ValueError):
         s(np.random.rand(2, 2, 2))
 
+    # test Morton
+    s = SortND(sort_type='Morton')
+    assert np.array_equal(s(grid_16), morton_grid_16)
 
-@patch("matplotlib.pyplot.show")
+    # test Hilbert
+    s = SortND(sort_type='Hilbert')
+    assert np.array_equal(s(grid_16), hilbert_grid_16)
+    with pytest.raises(NotImplementedError):
+        s(np.random.rand(5, 3))
+
+
+@ patch("matplotlib.pyplot.show")
 def test_plot(mock_show):
     s = SortND()
 
