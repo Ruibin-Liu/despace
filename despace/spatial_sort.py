@@ -14,7 +14,6 @@
     The sorted (re-indexed) N-D array can be useful in geological and N-body simulations like in molecular dynamics and astronomical physics.
 """
 
-from typing import Tuple
 import numpy as np
 from math import floor
 import matplotlib.pyplot as plt  # type: ignore
@@ -99,9 +98,6 @@ class SortND:
         returns:
             sorted_coords: sorted array according to spatial decomposition.
         """
-        print('rond')
-        print(order)
-        print(coords)
         if self.d == 1:
             return np.sort(coords)
         shape = coords.shape
