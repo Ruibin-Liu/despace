@@ -1,5 +1,6 @@
 """
-    `despace` is a tool to sort n dimensional data in a spatial decomposition way. Instead of using space filling curves, we use a simple sorting scheme.
+    `Despace` is a tool to sort n dimensional data in a spatial decomposition way.
+    Instead of using space filling curves, we use a simple sorting scheme.
 
     For the n=1 case, it's just a single sort.
     For the n>=2 dimensional cases, it's possible to index 'coordinates' so that proximal points are stored closely.
@@ -8,10 +9,12 @@
         1) Sort the the n-D coordinates by the first dimension;
         2) Divide the coordinates into two;
         3) For each half, sort the coordinates by the second dimension;
-        4) For each sorted half, divide the coordinates into two, and for each half in halves, sort by the next dimension, and so on;
+        4) For each sorted half, divide the coordinates into two, and for each half in halves,
+        sort by the next dimension, and so on;
         5) Repeat by circularly rotating the dimension indices until divided to individual elements.
 
-    The sorted (re-indexed) N-D array can be useful in geological and N-body simulations like in molecular dynamics and astronomical physics.
+    The sorted (re-indexed) N-D array can be useful in geological and N-body simulations like in molecular dynamics
+    and astronomical physics.
 """
 
 import numpy as np
@@ -20,14 +23,15 @@ import matplotlib.pyplot as plt  # type: ignore
 
 
 class SortND:
-    def __init__(self, coords: np.ndarray = None, start_dim: int = 0, sort_type: str = 'Morton', plot_data: bool = False, **kwargs) -> None:
+    def __init__(self, coords: np.ndarray = None, start_dim: int = 0, sort_type: str = 'Morton',
+                 plot_data: bool = False, **kwargs) -> None:
         """
         Init an SortND instance.
 
         params:
             coords: numpy.ndarray (2D) or matrix like data; default is None.
             start_dim: int, sort the matrix starting from the `start_dim` dimension; default is 0, the 0th dimension.
-            sort_type: str, sorting type, either 'Morton' (Z-order) or 'Hilbert' (|_|-order). 
+            sort_type: str, sorting type, either 'Morton' (Z-order) or 'Hilbert' (|_|-order).
             plot_data: bool, whether to plot the data; it's automatically set to False if number of dimensions is > 3.
             Other defined variables.
 
@@ -47,7 +51,8 @@ class SortND:
         self.start_dim = start_dim
         self.sort_type = sort_type
         if self.sort_type not in ['Morton', 'Hilbert']:
-            raise ValueError(f"Sort type {self.sort_type} is not supported. Only one of ['Morton', 'Hilbert'] is allowd.")
+            raise ValueError(
+                f"Sort type {self.sort_type} is not supported. Only one of ['Morton', 'Hilbert'] is allowd.")
         self.plot_data = plot_data
         self.__dict__.update(kwargs)
 
@@ -84,7 +89,8 @@ class SortND:
         next_dim = self._next_dim(dim)
         coords = coords[coords[:, dim].argsort()]
         half_index = floor(N / 2)
-        return np.vstack((self._sort_divide_morton(coords[0:half_index, :], next_dim, order), self._sort_divide_morton(coords[half_index:N, :], next_dim, order)))
+        return np.vstack((self._sort_divide_morton(coords[0:half_index, :], next_dim, order),
+                          self._sort_divide_morton(coords[half_index:N, :], next_dim, order)))
 
     def _sort_divide_hilbert(self, coords: np.ndarray, sub_type: str = 'A') -> np.ndarray:
         """
@@ -100,6 +106,8 @@ class SortND:
         """
         if self.d == 1:
             return np.sort(coords)
+        if self.d == 3:
+            raise NotImplementedError("3D Hilbert type curve has not been implemented.")
         shape = coords.shape
         N = shape[0]
         if N == 1:
@@ -115,8 +123,10 @@ class SortND:
             up_left = left[half_half_index:half_index, :]
             up_right = right[0:half_half_index, :]
             down_right = right[half_half_index:half_index, :]
-            return np.vstack(self._sort_divide_hilbert(down_left, sub_type='D'), self._sort_divide_hilbert(up_left, sub_type='A'),
-                             self._sort_divide_hilbert(up_right, sub_type='A'), self._sort_divide_hilbert(down_right, sub_type='B'))
+            return np.vstack((self._sort_divide_hilbert(down_left, sub_type='D'),
+                              self._sort_divide_hilbert(up_left, sub_type='A'),
+                              self._sort_divide_hilbert(up_right, sub_type='A'),
+                              self._sort_divide_hilbert(down_right, sub_type='B')))
         elif sub_type == 'B':
             coords = coords[coords[:, 1].argsort()[::-1]]
             up, down = coords[0:half_index, :], coords[half_index:N, :]
@@ -126,8 +136,10 @@ class SortND:
             up_left = up[half_half_index:half_index, :]
             down_left = down[0:half_half_index, :]
             down_right = down[half_half_index:half_index, :]
-            return np.vstack(self._sort_divide_hilbert(up_right, sub_type='C'), self._sort_divide_hilbert(up_left, sub_type='B'),
-                             self._sort_divide_hilbert(down_left, sub_type='B'), self._sort_divide_hilbert(down_right, sub_type='A'))
+            return np.vstack((self._sort_divide_hilbert(up_right, sub_type='C'),
+                              self._sort_divide_hilbert(up_left, sub_type='B'),
+                              self._sort_divide_hilbert(down_left, sub_type='B'),
+                              self._sort_divide_hilbert(down_right, sub_type='A')))
         elif sub_type == 'C':
             coords = coords[coords[:, 0].argsort()[::-1]]
             right, left = coords[0:half_index, :], coords[half_index:N, :]
@@ -137,9 +149,11 @@ class SortND:
             down_right = right[half_half_index:half_index, :]
             up_left = left[half_half_index:half_index, :]
             down_left = left[0:half_half_index, :]
-            return np.vstack(self._sort_divide_hilbert(up_right, sub_type='B'), self._sort_divide_hilbert(down_right, sub_type='C'),
-                             self._sort_divide_hilbert(down_left, sub_type='C'), self._sort_divide_hilbert(up_left, sub_type='D'))
-        elif sub_type == 'D':
+            return np.vstack((self._sort_divide_hilbert(up_right, sub_type='B'),
+                              self._sort_divide_hilbert(down_right, sub_type='C'),
+                              self._sort_divide_hilbert(down_left, sub_type='C'),
+                              self._sort_divide_hilbert(up_left, sub_type='D')))
+        else:  # sub_type == 'D'
             coords = coords[coords[:, 1].argsort()]
             down, up = coords[0:half_index, :], coords[half_index:N, :]
             down = down[down[:, 0].argsort()]
@@ -148,8 +162,10 @@ class SortND:
             down_right = down[half_half_index:half_index, :]
             up_right = up[0:half_half_index, :]
             up_left = up[half_half_index:half_index, :]
-            return np.vstack(self._sort_divide_hilbert(down_left, sub_type='A'), self._sort_divide_hilbert(down_right, sub_type='D'),
-                             self._sort_divide_hilbert(up_right, sub_type='D'), self._sort_divide_hilbert(up_left, sub_type='C'))
+            return np.vstack((self._sort_divide_hilbert(down_left, sub_type='A'),
+                              self._sort_divide_hilbert(down_right, sub_type='D'),
+                              self._sort_divide_hilbert(up_right, sub_type='D'),
+                              self._sort_divide_hilbert(up_left, sub_type='C')))
 
     def sort(self, coords: np.ndarray = None, **kwargs) -> np.ndarray:
         """
@@ -178,12 +194,14 @@ class SortND:
             self.sorted_coords = self._sort_divide_hilbert(self.coords, 'A')
         return self.sorted_coords
 
-    def plot(self, show_plot: bool = False, save_plot: bool = True, plot_arrow: bool = False, **kwargs) -> bool:
+    def plot(self, show_plot: bool = False, save_plot: bool = True,
+             plot_arrow: bool = False, **kwargs) -> bool:
         """
         Plot the sorted data by using gradient color corresponding to the data index change.
 
         params:
-            plot_arrow: bool, whether to plot arrows that show indexing direction between two data points; default is False.
+            plot_arrow: bool, whether to plot arrows that show indexing direction between
+                        two data points; default is False.
             show_plot: bool, whether to show the plot; default is False.
             save_plot: bool, whether to save the plot; default is True.
             Other matplotlib key words to control plot parameters.
