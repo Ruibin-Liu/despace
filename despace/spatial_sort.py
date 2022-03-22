@@ -108,16 +108,15 @@ class SortND:
         N = shape[0]
         if N == 1:
             return coords[0]
-
-
+        half_index = floor(N / 2)
+        half_half_index = floor(half_index / 2)
         if sub_type == 'A':
             coords = coords[coords[:, 0].argsort()]
             left, right = coords[0:half_index, :], coords[half_index:N, :]
             left = left[left[:, 1].argsort()]
             right = right[right[:, 1].argsort()[::-1]]
-            half_half_index = floor(half_index / 2)
-            up_left = left[0:half_half_index, :]
-            down_left = left[half_half_index:half_index, :]
+            down_left = left[0:half_half_index, :]
+            up_left = left[half_half_index:half_index, :]
             up_right = right[0:half_half_index, :]
             down_right = right[half_half_index:half_index, :]
             return np.vstack(_sort_divide_hilbert(down_left, sub_type='D'), _sort_divide_hilbert(up_left, sub_type='A'),
@@ -127,7 +126,6 @@ class SortND:
             up, down = coords[0:half_index, :], coords[half_index:N, :]
             up = up[up[:, 0].argsort()[::-1]]
             down = down[down[:, 0].argsort()]
-            half_half_index = floor(half_index / 2)
             up_right = up[0:half_half_index, :]
             up_left = up[half_half_index:half_index, :]
             down_left = down[0:half_half_index, :]
@@ -137,17 +135,25 @@ class SortND:
         elif sub_type == 'C':
             coords = coords[coords[:, 0].argsort()[::-1]]
             right, left = coords[0:half_index, :], coords[half_index:N, :]
-            right = right[right[:, 0].argsort()[::-1]]
-            left = left[left[:, 0].argsort()]
-            half_half_index = floor(half_index / 2)
+            right = right[right[:, 1].argsort()[::-1]]
+            left = left[left[:, 1].argsort()]
             up_right = right[0:half_half_index, :]
-            up_left = up[half_half_index:half_index, :]
-            down_right = down[half_half_index:half_index, :]
+            down_right = right[half_half_index:half_index, :]
+            up_left = left[half_half_index:half_index, :]
+            down_left = left[0:half_half_index, :]
+            return np.vstack(_sort_divide_hilbert(up_right, sub_type='B'), _sort_divide_hilbert(down_right, sub_type='C'),
+                             _sort_divide_hilbert(down_left, sub_type='C'), _sort_divide_hilbert(up_left, sub_type='D'))
+        elif sub_type == 'D':
+            coords = coords[coords[:, 1].argsort()]
+            down, up = coords[0:half_index, :], coords[half_index:N, :]
+            down = down[down[:, 0].argsort()]
+            up = up[up[:, 0].argsort()[::-1]]
             down_left = down[0:half_half_index, :]
-            
-            return np.vstack(_sort_divide_hilbert(up_right, sub_type='C'), _sort_divide_hilbert(up_left, sub_type='B'),
-                             _sort_divide_hilbert(down_left, sub_type='B'), _sort_divide_hilbert(down_right, sub_type='A'))
-        
+            down_right = down[half_half_index:half_index, :]
+            up_right = up[0:half_half_index, :]
+            up_left = up[half_half_index:half_index, :]
+            return np.vstack(_sort_divide_hilbert(down_left, sub_type='A'), _sort_divide_hilbert(down_right, sub_type='D'),
+                             _sort_divide_hilbert(up_right, sub_type='D'), _sort_divide_hilbert(up_left, sub_type='C'))
 
     def sort(self, coords: np.ndarray = None, **kwargs) -> np.ndarray:
         """
@@ -173,7 +179,7 @@ class SortND:
         if self.sort_type == 'Morton':
             self.sorted_coords = self._sort_divide_morton(self.coords, self.start_dim, 0)
         else:
-            self.sorted_coords = self._sort_divide_hilbert(self.coords, self.start_dim, 0)
+            self.sorted_coords = self._sort_divide_hilbert(self.coords, 'A')
         return self.sorted_coords
 
     def plot(self, show_plot: bool = False, save_plot: bool = True, plot_arrow: bool = False, **kwargs) -> bool:
