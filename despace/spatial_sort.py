@@ -119,8 +119,8 @@ class SortND:
             up_left = left[half_half_index:half_index, :]
             up_right = right[0:half_half_index, :]
             down_right = right[half_half_index:half_index, :]
-            return np.vstack(_sort_divide_hilbert(down_left, sub_type='D'), _sort_divide_hilbert(up_left, sub_type='A'),
-                             _sort_divide_hilbert(up_right, sub_type='A'), _sort_divide_hilbert(down_right, sub_type='B'))
+            return np.vstack(self._sort_divide_hilbert(down_left, sub_type='D'), self._sort_divide_hilbert(up_left, sub_type='A'),
+                             self._sort_divide_hilbert(up_right, sub_type='A'), self._sort_divide_hilbert(down_right, sub_type='B'))
         elif sub_type == 'B':
             coords = coords[coords[:, 1].argsort()[::-1]]
             up, down = coords[0:half_index, :], coords[half_index:N, :]
@@ -130,8 +130,8 @@ class SortND:
             up_left = up[half_half_index:half_index, :]
             down_left = down[0:half_half_index, :]
             down_right = down[half_half_index:half_index, :]
-            return np.vstack(_sort_divide_hilbert(up_right, sub_type='C'), _sort_divide_hilbert(up_left, sub_type='B'),
-                             _sort_divide_hilbert(down_left, sub_type='B'), _sort_divide_hilbert(down_right, sub_type='A'))
+            return np.vstack(self._sort_divide_hilbert(up_right, sub_type='C'), self._sort_divide_hilbert(up_left, sub_type='B'),
+                             self._sort_divide_hilbert(down_left, sub_type='B'), self._sort_divide_hilbert(down_right, sub_type='A'))
         elif sub_type == 'C':
             coords = coords[coords[:, 0].argsort()[::-1]]
             right, left = coords[0:half_index, :], coords[half_index:N, :]
@@ -141,8 +141,8 @@ class SortND:
             down_right = right[half_half_index:half_index, :]
             up_left = left[half_half_index:half_index, :]
             down_left = left[0:half_half_index, :]
-            return np.vstack(_sort_divide_hilbert(up_right, sub_type='B'), _sort_divide_hilbert(down_right, sub_type='C'),
-                             _sort_divide_hilbert(down_left, sub_type='C'), _sort_divide_hilbert(up_left, sub_type='D'))
+            return np.vstack(self._sort_divide_hilbert(up_right, sub_type='B'), self._sort_divide_hilbert(down_right, sub_type='C'),
+                             self._sort_divide_hilbert(down_left, sub_type='C'), self._sort_divide_hilbert(up_left, sub_type='D'))
         elif sub_type == 'D':
             coords = coords[coords[:, 1].argsort()]
             down, up = coords[0:half_index, :], coords[half_index:N, :]
@@ -152,8 +152,8 @@ class SortND:
             down_right = down[half_half_index:half_index, :]
             up_right = up[0:half_half_index, :]
             up_left = up[half_half_index:half_index, :]
-            return np.vstack(_sort_divide_hilbert(down_left, sub_type='A'), _sort_divide_hilbert(down_right, sub_type='D'),
-                             _sort_divide_hilbert(up_right, sub_type='D'), _sort_divide_hilbert(up_left, sub_type='C'))
+            return np.vstack(self._sort_divide_hilbert(down_left, sub_type='A'), self._sort_divide_hilbert(down_right, sub_type='D'),
+                             self._sort_divide_hilbert(up_right, sub_type='D'), self._sort_divide_hilbert(up_left, sub_type='C'))
 
     def sort(self, coords: np.ndarray = None, **kwargs) -> np.ndarray:
         """
