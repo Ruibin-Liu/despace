@@ -111,57 +111,96 @@ class SortND:
         shape = coords.shape
         N = shape[0]
         if N == 1:
-            return coords[0]
+            return coords
         half_index = floor(N / 2)
-        half_half_index = floor(half_index / 2)
         if sub_type == 'A':
             coords = coords[coords[:, 0].argsort()]
+            if coords.shape[0] == 2:
+                return coords
             left, right = coords[0:half_index, :], coords[half_index:N, :]
             left = left[left[:, 1].argsort()]
             right = right[right[:, 1].argsort()[::-1]]
-            down_left = left[0:half_half_index, :]
-            up_left = left[half_half_index:half_index, :]
-            up_right = right[0:half_half_index, :]
-            down_right = right[half_half_index:half_index, :]
+            half_left = floor(left.shape[0] / 2)
+            half_right = floor(right.shape[0] / 2)
+            down_left = left[0:half_left, :]
+            up_left = left[half_left:half_index, :]
+            up_right = right[0:half_right, :]
+            down_right = right[half_right:(N-half_index), :]
+            if left.shape[0] == 1:  # right length must be >= 2
+                return np.vstack((left, self._sort_divide_hilbert(up_right, sub_type='A'),
+                                  self._sort_divide_hilbert(down_right, sub_type='B')))
+            elif right.shape[0] == 1:  # left length mush be >=2; same for other sub types
+                return np.vstack((self._sort_divide_hilbert(down_left, sub_type='D'),
+                                  self._sort_divide_hilbert(up_left, sub_type='A'), right))
             return np.vstack((self._sort_divide_hilbert(down_left, sub_type='D'),
                               self._sort_divide_hilbert(up_left, sub_type='A'),
                               self._sort_divide_hilbert(up_right, sub_type='A'),
                               self._sort_divide_hilbert(down_right, sub_type='B')))
         elif sub_type == 'B':
             coords = coords[coords[:, 1].argsort()[::-1]]
+            if coords.shape[0] == 2:
+                return coords
             up, down = coords[0:half_index, :], coords[half_index:N, :]
             up = up[up[:, 0].argsort()[::-1]]
             down = down[down[:, 0].argsort()]
-            up_right = up[0:half_half_index, :]
-            up_left = up[half_half_index:half_index, :]
-            down_left = down[0:half_half_index, :]
-            down_right = down[half_half_index:half_index, :]
+            half_up = floor(up.shape[0] / 2)
+            half_down = floor(down.shape[0] / 2)
+            up_right = up[0:half_up, :]
+            up_left = up[half_up:half_index, :]
+            down_left = down[0:half_down, :]
+            down_right = down[half_down:(N-half_index), :]
+            if up.shape[0] == 1:
+                return np.vstack((up, self._sort_divide_hilbert(down_left, sub_type='B'),
+                                  self._sort_divide_hilbert(down_right, sub_type='A')))
+            elif down.shape[0] == 1:
+                return np.vstack((self._sort_divide_hilbert(up_right, sub_type='C'),
+                                  self._sort_divide_hilbert(up_left, sub_type='B'), down))
             return np.vstack((self._sort_divide_hilbert(up_right, sub_type='C'),
                               self._sort_divide_hilbert(up_left, sub_type='B'),
                               self._sort_divide_hilbert(down_left, sub_type='B'),
                               self._sort_divide_hilbert(down_right, sub_type='A')))
         elif sub_type == 'C':
             coords = coords[coords[:, 0].argsort()[::-1]]
+            if coords.shape[0] == 2:
+                return coords
             right, left = coords[0:half_index, :], coords[half_index:N, :]
             right = right[right[:, 1].argsort()[::-1]]
             left = left[left[:, 1].argsort()]
-            up_right = right[0:half_half_index, :]
-            down_right = right[half_half_index:half_index, :]
-            up_left = left[half_half_index:half_index, :]
-            down_left = left[0:half_half_index, :]
+            half_left = floor(left.shape[0] / 2)
+            half_right = floor(right.shape[0] / 2)
+            up_right = right[0:half_right, :]
+            down_right = right[half_right:half_index, :]
+            up_left = left[half_left:(N-half_index), :]
+            down_left = left[0:half_left, :]
+            if right.shape[0] == 1:
+                return np.vstack((right, self._sort_divide_hilbert(down_left, sub_type='C'),
+                                  self._sort_divide_hilbert(up_left, sub_type='D')))
+            elif left.shape[0] == 1:
+                return np.vstack((self._sort_divide_hilbert(up_right, sub_type='B'),
+                                  self._sort_divide_hilbert(down_right, sub_type='C'), left))
             return np.vstack((self._sort_divide_hilbert(up_right, sub_type='B'),
                               self._sort_divide_hilbert(down_right, sub_type='C'),
                               self._sort_divide_hilbert(down_left, sub_type='C'),
                               self._sort_divide_hilbert(up_left, sub_type='D')))
         else:  # sub_type == 'D'
             coords = coords[coords[:, 1].argsort()]
+            if coords.shape[0] == 2:
+                return coords
             down, up = coords[0:half_index, :], coords[half_index:N, :]
             down = down[down[:, 0].argsort()]
             up = up[up[:, 0].argsort()[::-1]]
-            down_left = down[0:half_half_index, :]
-            down_right = down[half_half_index:half_index, :]
-            up_right = up[0:half_half_index, :]
-            up_left = up[half_half_index:half_index, :]
+            half_up = floor(up.shape[0] / 2)
+            half_down = floor(down.shape[0] / 2)
+            down_left = down[0:half_down, :]
+            down_right = down[half_down:half_index, :]
+            up_right = up[0:half_up, :]
+            up_left = up[half_up:(N-half_index), :]
+            if down.shape[0] == 1:
+                return np.vstack((down, self._sort_divide_hilbert(up_right, sub_type='D'),
+                                  self._sort_divide_hilbert(up_left, sub_type='C')))
+            elif up.shape[0] == 1:
+                return np.vstack((self._sort_divide_hilbert(down_left, sub_type='A'),
+                                  self._sort_divide_hilbert(down_right, sub_type='D'), up))
             return np.vstack((self._sort_divide_hilbert(down_left, sub_type='A'),
                               self._sort_divide_hilbert(down_right, sub_type='D'),
                               self._sort_divide_hilbert(up_right, sub_type='D'),
