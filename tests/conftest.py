@@ -1,5 +1,7 @@
-import pytest
 import sys
+
+import pytest
+
 sys.path.append("..")
 
 
@@ -11,5 +13,5 @@ def capture_stdout(monkeypatch):
         buffer["stdout"] += s
         buffer["write_calls"] += 1
 
-    monkeypatch.setattr(sys.stdout, 'write', fake_write)
+    monkeypatch.setattr(sys.stdout, "write", fake_write)
     return
