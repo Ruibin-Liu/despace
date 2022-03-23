@@ -2,7 +2,7 @@
 
 ![Tests](https://github.com/Ruibin-Liu/despace/actions/workflows/tests.yml/badge.svg)
 ![Python](https://img.shields.io/badge/python-3.6-blue.svg)
-<a href="https://colab.research.google.com/github/Ruibin-Liu/despace/blob/main/examples/despace_examples.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+<a href="https://colab.research.google.com/github/Ruibin-Liu/despace/blob/main/docs/source/notebooks/Examples.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 [![PyPI version](https://badge.fury.io/py/despace.svg)](https://badge.fury.io/py/despace)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6369236.svg)](https://doi.org/10.5281/zenodo.6369236)
 
@@ -72,4 +72,4 @@ We shall get a similar figure as the above example.
 
 3. Try in Google Colab
 
-Click the button <a href="https://colab.research.google.com/github/Ruibin-Liu/despace/blob/main/examples/despace_examples.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Google Colab"/></a> and follow the examples in the Google Colab file.
+Click the button <a href="https://colab.research.google.com/github/Ruibin-Liu/despace/blob/main/docs/source/notebooks/Examples.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a> and follow the examples in the Google Colab file.
