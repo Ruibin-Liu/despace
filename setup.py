@@ -3,12 +3,12 @@ import os
 __package_name__ = "despace"
 __author__ = "Ruibin Liu"
 
-from setuptools import setup, find_packages
+from setuptools import setup, find_packages  # type: ignore
 
 if os.path.exists('README.md'):
     long_description = open('README.md').read()
 else:
-    long_description = 'Despace - A python package to sort or index N-dimensional data without using space filling curves.'
+    long_description = 'Despace - A python package to sort or index N-dimensional coordinates.'
 
 with open('requirements.txt') as f:
     REQUIREMENTS = f.read().strip().split('\n')
