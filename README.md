@@ -1,6 +1,7 @@
 # Despace
 
 ![Tests](https://github.com/Ruibin-Liu/despace/actions/workflows/tests.yml/badge.svg)
+[![Documentation Status](https://readthedocs.org/projects/despace/badge/?version=latest)](https://despace.readthedocs.io/en/latest/?badge=latest)
 ![Python](https://img.shields.io/badge/python-3.6-blue.svg)
 <a href="https://colab.research.google.com/github/Ruibin-Liu/despace/blob/main/docs/source/notebooks/Examples.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 [![PyPI version](https://badge.fury.io/py/despace.svg)](https://badge.fury.io/py/despace)
