@@ -15,13 +15,13 @@ else:
 with open("requirements.txt") as f:
     REQUIREMENTS = f.read().strip().split("\n")
 
+ver = {}  # type: ignore
 with open("despace/version.py", "r") as vf:
-    __version__ = vf.readline().split()[-1].strip().replace("'", "")
-
+    exec(vf.read(), ver)
 
 setup(
     name=__package_name__,
-    version=__version__,
+    version=ver["__version__"],
     author=__author__,
     author_email="ruibinliuphd@gmail.com",
     description="A spatial decomposition tool for sorting or indexing N-D data.",
