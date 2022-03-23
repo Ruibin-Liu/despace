@@ -23,9 +23,10 @@ copyright = "2022, Ruibin Liu"
 author = "Ruibin Liu"
 
 # The full version, including alpha/beta/rc tags
-with open("../../despace/version.py", "r") as vf:
-    release = vf.readline().split()[-1].strip().replace("'", "")
-
+ver = {}  # type: ignore
+with open("despace/version.py", "r") as vf:
+    exec(vf.read(), ver)
+release = ver["__version__"]
 
 # -- General configuration ---------------------------------------------------
 
