@@ -4,6 +4,12 @@ include README.md requirements.txt
 include *.txt
 include tox.ini
 recursive-include despace *.typed
-recursive-include examples *.ipynb
-recursive-include examples *.png
-recursive-include examples *.py
+
+# added by check-manifest
+include *.yaml
+recursive-include docs *.bat
+recursive-include docs *.ipynb
+recursive-include docs *.py
+recursive-include docs *.rst
+recursive-include docs Makefile
+recursive-include images *.png

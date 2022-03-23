@@ -7,3 +7,6 @@ addopts = "-ra -q"
 testpaths = [
     "tests",
 ]
+
+[tool.check-manifest]
+ignore = ["docs/build/doctrees/nbsphinx/notebooks/Examples.ipynb", "docs/build/html/notebooks/Examples.ipynb"]
