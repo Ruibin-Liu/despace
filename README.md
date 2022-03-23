@@ -32,16 +32,16 @@ pip install despace
 
 For a 8X8 grid, we get a Morton curve if we init the `sort_type` as `Morton` (the default):
 
-![](./examples/figures/Morton.png "8x8 Morton curve")
+![](images/Morton.png "8x8 Morton curve")
 
 We get a Hilbert curve if we init the `sort_type` as `Hilbert`:
 
-![](./examples/figures/Hilbert.png "8x8 Hilbert curve")
+![](images/Hilbert.png "8x8 Hilbert curve")
 
 `k-D` cases are primarily done for the `Morton` type. Visualization for 2D and 3D cases is supported. Below shows plots of `N=10000` random points in a 2D square space and a 3D cube. The data points are blue-->red colored according to their indices from 0 to 9999.
 
-![](./examples/figures/2D_10000.png "2D case with 10000 data points")
-![](./examples/figures/3D_10000.png "3D case with 10000 data points")
+![](images/2D_10000.png "2D case with 10000 data points")
+![](images/3D_10000.png "3D case with 10000 data points")
 
 For the `Hilbert` type, only 1D and 2D cases have been implemented.
 
@@ -55,7 +55,7 @@ python generate_random.py 50 2 # use 50 data points for 2D.
 
 And we get a figure like below:
 
-![](./examples/figures/2D_50.png "2D case with 50 data points")
+![](images/2D_50.png "2D case with 50 data points")
 
 2. Use in your code
 
