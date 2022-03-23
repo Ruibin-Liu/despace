@@ -11,7 +11,7 @@ Welcome to Despace's documentation!
    :caption: Contents:
 
    modules
-   notebooks/Examples 
+   notebooks/Examples
 
 Indices and tables
 ==================
