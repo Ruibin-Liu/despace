@@ -24,7 +24,7 @@ author = "Ruibin Liu"
 
 # The full version, including alpha/beta/rc tags
 ver = {}  # type: ignore
-with open("despace/version.py", "r") as vf:
+with open("../../despace/version.py", "r") as vf:
     exec(vf.read(), ver)
 release = ver["__version__"]
 
