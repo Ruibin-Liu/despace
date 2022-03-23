@@ -1,4 +1,5 @@
-"""
+"""Despace: Spatial Decomposition Without Space Filling Curves
+
     `Despace` is a tool to sort n dimensional data in a spatial decomposition way.
     Instead of using space filling curves, we use a simple sorting scheme.
 
@@ -9,13 +10,12 @@
         1) Sort the the n-D coordinates by the first dimension;
         2) Divide the coordinates into two;
         3) For each half, sort the coordinates by the second dimension;
-        4) For each sorted half, divide the coordinates into two, and for each half in halves,
-        sort by the next dimension, and so on;
+        4) For each sorted half, divide the coordinates into two, and for each half in halves, sort by the next dimension, and so on;
         5) Repeat by circularly rotating the dimension indices until divided to individual elements.
 
     The sorted (re-indexed) N-D array can be useful in geological and N-body simulations like in molecular dynamics
     and astronomical physics.
-"""
+"""  # noqa: E501
 
 import numpy as np
 from math import floor
@@ -33,7 +33,6 @@ class SortND:
             start_dim: int, sort the matrix starting from the `start_dim` dimension; default is 0, the 0th dimension.
             sort_type: str, sorting type, either 'Morton' (Z-order) or 'Hilbert' (|_|-order).
             plot_data: bool, whether to plot the data; it's automatically set to False if number of dimensions is > 3.
-            Other defined variables.
 
         returns:
             a SortND instance
@@ -240,7 +239,7 @@ class SortND:
 
         params:
             plot_arrow: bool, whether to plot arrows that show indexing direction between
-                        two data points; default is False.
+            two data points; default is False.
             show_plot: bool, whether to show the plot; default is False.
             save_plot: bool, whether to save the plot; default is True.
             Other matplotlib key words to control plot parameters.
