@@ -20,7 +20,7 @@
 from math import floor
 
 import matplotlib.pyplot as plt  # type: ignore
-import numpy as np
+import numpy as np  # type: ignore
 
 
 class SortND:
@@ -140,7 +140,7 @@ class SortND:
             down_left = left[0:half_left, :]
             up_left = left[half_left:half_index, :]
             up_right = right[0:half_right, :]
-            down_right = right[half_right : (N - half_index), :]
+            down_right = right[half_right : (N - half_index), :]  # noqa: E203
             if left.shape[0] == 1:  # right length must be >= 2
                 return np.vstack(
                     (
@@ -179,7 +179,7 @@ class SortND:
             up_right = up[0:half_up, :]
             up_left = up[half_up:half_index, :]
             down_left = down[0:half_down, :]
-            down_right = down[half_down : (N - half_index), :]
+            down_right = down[half_down : (N - half_index), :]  # noqa: E203
             if up.shape[0] == 1:
                 return np.vstack(
                     (
@@ -215,7 +215,7 @@ class SortND:
             half_right = floor(right.shape[0] / 2)
             up_right = right[0:half_right, :]
             down_right = right[half_right:half_index, :]
-            up_left = left[half_left : (N - half_index), :]
+            up_left = left[half_left : (N - half_index), :]  # noqa: E203
             down_left = left[0:half_left, :]
             if right.shape[0] == 1:
                 return np.vstack(
@@ -253,7 +253,7 @@ class SortND:
             down_left = down[0:half_down, :]
             down_right = down[half_down:half_index, :]
             up_right = up[0:half_up, :]
-            up_left = up[half_up : (N - half_index), :]
+            up_left = up[half_up : (N - half_index), :]  # noqa: E203
             if down.shape[0] == 1:
                 return np.vstack(
                     (

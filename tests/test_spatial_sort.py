@@ -2,7 +2,7 @@ import sys
 from os.path import exists
 from unittest.mock import patch
 
-import numpy as np
+import numpy as np  # type: ignore
 import pytest
 
 from despace.spatial_sort import SortND
