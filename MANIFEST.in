@@ -1,1 +1,9 @@
 include README.md requirements.txt
+
+# added by check-manifest
+include *.txt
+include tox.ini
+recursive-include despace *.typed
+recursive-include examples *.ipynb
+recursive-include examples *.png
+recursive-include examples *.py
