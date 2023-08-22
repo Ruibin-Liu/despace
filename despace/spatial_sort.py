@@ -18,6 +18,7 @@
 """  # noqa: E501
 
 from math import floor
+from typing import Union
 
 import matplotlib.pyplot as plt  # type: ignore
 import numpy as np  # type: ignore
@@ -26,7 +27,7 @@ import numpy as np  # type: ignore
 class SortND:
     def __init__(
         self,
-        coords: np.ndarray = None,
+        coords: Union[np.ndarray, None] = None,
         start_dim: int = 0,
         sort_type: str = "Morton",
         plot_data: bool = False,
@@ -279,7 +280,7 @@ class SortND:
                 )
             )
 
-    def sort(self, coords: np.ndarray = None, **kwargs) -> np.ndarray:
+    def sort(self, coords: Union[np.ndarray, None] = None, **kwargs) -> np.ndarray:
         """
         Sort the n dimensional data.
 
