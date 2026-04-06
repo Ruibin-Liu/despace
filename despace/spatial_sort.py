@@ -1,20 +1,20 @@
 """Despace: Spatial Decomposition Without Space Filling Curves
 
-    `Despace` is a tool to sort n dimensional data in a spatial decomposition way.
-    Instead of using space filling curves, we use a simple sorting scheme.
+`Despace` is a tool to sort n dimensional data in a spatial decomposition way.
+Instead of using space filling curves, we use a simple sorting scheme.
 
-    For the n=1 case, it's just a single sort.
-    For the n>=2 dimensional cases, it's possible to index 'coordinates' so that proximal points are stored closely.
+For the n=1 case, it's just a single sort.
+For the n>=2 dimensional cases, it's possible to index 'coordinates' so that proximal points are stored closely.
 
-    We do it in the following way:
-        1) Sort the the n-D coordinates by the first dimension;
-        2) Divide the coordinates into two;
-        3) For each half, sort the coordinates by the second dimension;
-        4) For each sorted half, divide the coordinates into two, and for each half in halves, sort by the next dimension, and so on;
-        5) Repeat by circularly rotating the dimension indices until divided to individual elements.
+We do it in the following way:
+    1) Sort the the n-D coordinates by the first dimension;
+    2) Divide the coordinates into two;
+    3) For each half, sort the coordinates by the second dimension;
+    4) For each sorted half, divide the coordinates into two, and for each half in halves, sort by the next dimension, and so on;
+    5) Repeat by circularly rotating the dimension indices until divided to individual elements.
 
-    The sorted (re-indexed) N-D array can be useful in geological and N-body simulations like in molecular dynamics
-    and astronomical physics.
+The sorted (re-indexed) N-D array can be useful in geological and N-body simulations like in molecular dynamics
+and astronomical physics.
 """  # noqa: E501
 
 from math import floor
